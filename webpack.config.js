@@ -14,9 +14,9 @@ module.exports = {
         publicPath: '/static/build/',
     },
 
-    optimization: {
+    /* optimization: {
         minimize: NODE_ENV !== 'development',
-    }, 
+    }, */ 
  /*
     plugins: [
         new webpack.DefinePlugin({ __IS_DEV__: NODE_ENV === 'development' }),
