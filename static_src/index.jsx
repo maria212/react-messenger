@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MessageField from './components/MessageField';
+
+import './style.css';
 
 const asd = <span>QWER</span>;
 
 ReactDOM.render(
-    asd, document.getElementById('textblock'),
+    <MessageField />, document.getElementById('root'),
 );
