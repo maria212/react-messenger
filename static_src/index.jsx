@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MessageField from './components/MessageField';
+import Layout from './components/Layout';
 
 import './style.css';
 
-const asd = <span>QWER</span>;
-
 ReactDOM.render(
-    <MessageField />, document.getElementById('root'),
+    <MuiThemeProvider>
+   {/*  <MessageField /> */}
+    <Layout />
+    </MuiThemeProvider>
+    , document.getElementById('root'),
 );

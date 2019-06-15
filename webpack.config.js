@@ -31,6 +31,8 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader'
+                    //loader: 'babel-loader?presets[]=react&presets[]=es2015&presets[]=stage-1'
+                    //loader: 'babel-loader?presets[]=stage-1'
                 }
             },
             {
