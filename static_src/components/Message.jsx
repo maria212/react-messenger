@@ -8,7 +8,7 @@ export default class Message extends React.Component {
         sender: PropTypes.string
     }
 
-    render() {
+    render() {    
         return <div>{ this.props.text}</div>
     }
 }

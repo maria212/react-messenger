@@ -6,27 +6,16 @@ import Chip from 'material-ui/Chip';
 
 const styles = {
     messageElements: {
-        //position: 'relative',
         display: 'flex',
         flexDirection: 'column'
     },
     chipSenderMe: {
       margin: 4,
-      alignSelf: 'end',
-      justifyСontent: 'start',
-      //textAlign: 'right',
-      //justifyСontent: "flex-end",
-      //position: 'absolute',
-      //right: 0,
+      alignSelf: 'flex-end',
     },
     chipSenderOther: {
         margin: 4,
-        //alignSelf: 'start',
-        justifyСontent: 'end',
-        //textAlign: 'left',
-        //justifyСontent: "flex-start",
-        //position: 'absolute',
-        //left: 0,
+        alignSelf: 'flex-start',
       }};
 
 export default class MessageField extends React.Component {
@@ -93,10 +82,10 @@ export default class MessageField extends React.Component {
         const messageElements = this.state.messages.map((elem, index) => (
 
         <Chip
-          style={elem.sender==='me' ?  styles.chipSenderMe : styles.chipSenderOther} 
+          className={"chip-component"} style={elem.sender==='me' ?  styles.chipSenderMe : styles.chipSenderOther} 
           key = {index}
         >
-          <Message key = {index} text = {elem.text} sender = {elem.sender} />
+          <Message className={'message-component'} key = {index} text = {elem.text} sender = {elem.sender} />
         </Chip>     
         ));
 
