@@ -13,7 +13,7 @@ const styles = {
 
 }
 
-export default class Header extends React.Component {
+export default class Profile extends React.Component {
 
     render() {
         return  <div className="header" style={styles.header}> 

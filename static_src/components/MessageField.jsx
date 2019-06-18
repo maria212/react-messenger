@@ -4,6 +4,8 @@ import { TextField , FloatingActionButton } from 'material-ui';
 import IconSend from 'material-ui/svg-icons/content/send';
 import Chip from 'material-ui/Chip';
 
+//import './messsageField.css';
+
 const styles = {
     messageElements: {
         display: 'flex',
@@ -32,8 +34,6 @@ export default class MessageField extends React.Component {
      * Событие набора 1 буквы в поле ввода
      */
     handleType = (event) => {
-        //this.setState({input: event.target.value});
-        //[e.target.name] - имя поля ввода. для возможности обрабатывать этой ф-й любой инпут
         this.setState({[event.target.name]: event.target.value});
     }
 
@@ -72,7 +72,6 @@ export default class MessageField extends React.Component {
                 &&  (this.state.messages[this.state.messages.length-1].sender === "me")) {
             setTimeout(this.sendAnswer, 500);
         }
-        //console.log("componentDidUpdate");
         //console.log('prevState:', prevState, 'prevProps:', prevProps);
         //console.log('thisState:', this.state, 'thisProps:', this.props);
     }
