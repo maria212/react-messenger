@@ -10,14 +10,17 @@ const styles = {
     window: {
         display: "flex"
     },
-}
+};
 
 export default class Layout extends React.Component {
     
-    static PropTypes = {
+    static propTypes = {
         idChat: PropTypes.number,    
-    }
+    };
 
+    static defaultProps = {
+        idChat: 1,
+    };
 
 
     render() {
@@ -25,7 +28,8 @@ export default class Layout extends React.Component {
             <ChatList />
             <div className='right-column'>
                 <Header />
-            <MessageField />
+            {/* <MessageField /> */}
+            <MessageField chatId={ this.props.chatId }/>
             </div>
         </div> 
 
