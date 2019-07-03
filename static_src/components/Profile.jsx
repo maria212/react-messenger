@@ -1,24 +1,10 @@
 import React from 'react';
-
-
-const styles = {
-    header: {
-        height: "40px",
-        backgroundColor: "#ffccdd"
-    },
-    headerText: {
-        textAlign: "center"
-    }
-    
-
-}
+import Avatar from 'material-ui/Avatar';
 
 export default class Profile extends React.Component {
-
     render() {
-        return  <div className="header" style={styles.header}> 
-            <p style={styles.headerText}>Чат</p>
-        </div> 
-
+        return  (<div className="header" style={styles.header}> 
+             <Avatar src={'/static_src/images/uV55pjsuSWg.jpg'}/>
+        </div> )
     }
 }
