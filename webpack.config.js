@@ -17,10 +17,10 @@ module.exports = {
      optimization: {
         minimize: NODE_ENV !== 'development',
     },  
- /*
+ 
     plugins: [
         new webpack.DefinePlugin({ __IS_DEV__: NODE_ENV === 'development' }),
-    ],*/
+    ],
 
     module: {
         rules: [

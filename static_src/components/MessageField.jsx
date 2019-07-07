@@ -4,6 +4,9 @@ import Message from './Message'
 import { TextField , FloatingActionButton } from 'material-ui';
 import IconSend from 'material-ui/svg-icons/content/send';
 import Chip from 'material-ui/Chip';
+import { sendMessage } from "../actions/messageActions";
+import {bindActionCreators} from "redux";
+import connect from "react-redux/es/connect/connect";
 
 //import './messsageField.css';
 
@@ -21,10 +24,12 @@ const styles = {
         alignSelf: 'flex-start',
       }};
 
-export default class MessageField extends React.Component {
+class MessageField extends React.Component {
 
     static PropTypes = {
         chatId: PropTypes.number,
+        sendMessage: PropTypes.func.isRequired,
+        messages: PropTypes.object.isRequired
     }
     
     static defaultProps = {
@@ -32,29 +37,16 @@ export default class MessageField extends React.Component {
     };
 
        state = {
-        messages: {
-            /**
-             * Ключи - ID сообщений
-             */
-            1: {text: "Hello", sender: "me"},
-            2: {text: "Hi", sender: "me"},
-            3: {text: "Hey", sender: "me"},
-            4: {text: "Wow", sender: "me"},
-            5: {text: "Yeah", sender: "me"},
-            6: {text: ":=)", sender: "me"},
-            7: {text: ":=(", sender: "me"},
-        },
+        // messages: {  // перенесли в редьюсер
         chats: {
-            /**
-             * Ключи - ID чатов
-             */
+             // Ключи - ID чатов
             1: {tittle: 'Chat 1', messageList: [1, 6]},
             2: {tittle: 'Chat 2',  messageList: [2]},
             3: {tittle: 'Chat 3',  messageList: [2, 7]},
             4: {tittle: 'Chat 4',  messageList: [4]},
             5: {tittle: 'Chat 5',  messageList: [5]},
         },
-        input: ''
+        input: '',
     } 
 
     /**
@@ -68,14 +60,13 @@ export default class MessageField extends React.Component {
      * Событие нажатия кнопки отправки сообщения
      */
     handleSendMessage = () => {
-        const { messages, chats, input } = this.state;
-        const { chatId } = this.props;
+        const { chats, input } = this.state;
+        const { chatId , messages} = this.props;
 
         if (input.length>0) {
-            //const messageId = Math.max(...Object.keys(messages).map(elem => Number(elem))) + 1;
-            const messageId = Number(Object.keys(messages)[Object.keys(messages).length - 1]) + 1; //правильный вариант
+            const messageId = Object.keys(messages).length + 1; 
+            this.props.sendMessage(messageId, input, 'me', chatId); //вызов messageActions
             this.setState({
-                messages: { ...messages, [messageId]: {text: input, sender: 'me'} }, // если уже существует сообщение с таким id, обновляем его, в противном случае создаем
                 chats: { ...chats, [chatId]: { ...chats[chatId], messageList: [ ...chats[chatId]['messageList'], messageId] } }, 
                 input: '',
             });
@@ -95,15 +86,12 @@ export default class MessageField extends React.Component {
      * Отправка ответа бота
      */
     sendAnswer = () => {
-        const { messages, chats, input } = this.state;
-        const { chatId } = this.props;
+        const { chats } = this.state;
+        const { chatId, messages } = this.props;
 
-       //let lastIndex = Object.keys(messages).length-1;
-       //const messageId = Math.max(...Object.keys(messages).map(elem => Number(elem))) + 1;
-
-       const messageId = Number(Object.keys(messages)[Object.keys(messages).length - 1]) + 1;
-       this.setState({
-           messages: {...messages, [messageId]: {text: "I'm bot", sender: "bot"}},
+        const messageId = Object.keys(messages).length + 1; 
+        this.props.sendMessage(messageId, "I'm bot", 'bot', chatId);
+        this.setState({
            chats: {...chats, [chatId]: {...chats[chatId], messageList: [...chats[chatId]['messageList'], messageId]}}
         });
     };
@@ -113,18 +101,17 @@ export default class MessageField extends React.Component {
         console.log('prevState:', prevState, 'prevProps:', prevProps);
         console.log('thisState:', this.state, 'thisProps:', this.props); */
 
-        const {messages, chats} = this.state;
-        const {chatId} = this.props.chatId;
+        const {messages} = this.props;
 
-        if ((Object.keys(prevState['messages']).length < Object.keys(this.state['messages']).length)
-                &&  (messages[Object.keys(messages)[Object.keys(messages).length-1]].sender === "me")) {
+        if ((Object.keys(prevProps.messages).length < Object.keys(messages).length)
+                &&  Object.values(messages)[Object.keys(messages).length - 1].sender === "me") {
             setTimeout(this.sendAnswer, 500);
         }
     }
 
     render() {
-        const {messages, chats} = this.state;
-        const {chatId} = this.props;
+        const {chats} = this.state;
+        const {chatId, messages} = this.props;
 
         const messageElements = chats[chatId].messageList.map((msgId, index) => (
                 <Chip 
@@ -152,3 +139,12 @@ export default class MessageField extends React.Component {
         </div> 
     }
 }
+
+const mapStateToProps = ({ messageReducer }) => ({
+   messages: messageReducer.messages,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage }, dispatch); //все action прокидывать в эту функцию
+
+//декорируем, обертка. connect прокидывает в props 
+export default connect(mapStateToProps, mapDispatchToProps)(MessageField);
