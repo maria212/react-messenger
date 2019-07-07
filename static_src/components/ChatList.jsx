@@ -9,7 +9,6 @@ const styles = {
     }};
 
 export default class ChatList extends React.Component {
-
     render() {
         return (
         //<div> 
@@ -20,10 +19,7 @@ export default class ChatList extends React.Component {
                <Link to="/static_src/chat/4/"><ListItem primaryText="Chat 4" leftIcon={<ContentDrafts />} key = {4}/></Link> 
                <Link to="/static_src/chat/5/"><ListItem primaryText="Chat 5" leftIcon={<ContentDrafts />} key = {5}/></Link> 
             </List>
-       
- 
        // </div> 
         )
-
     }
 }
