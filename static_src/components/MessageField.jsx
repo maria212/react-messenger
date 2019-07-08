@@ -29,7 +29,8 @@ class MessageField extends React.Component {
     static PropTypes = {
         chatId: PropTypes.number,
         sendMessage: PropTypes.func.isRequired,
-        messages: PropTypes.object.isRequired
+        messages: PropTypes.object.isRequired,
+        chats: PropTypes.object.isRequired,
     }
     
     static defaultProps = {
@@ -37,15 +38,6 @@ class MessageField extends React.Component {
     };
 
        state = {
-        // messages: {  // перенесли в редьюсер
-        chats: {
-             // Ключи - ID чатов
-            1: {tittle: 'Chat 1', messageList: [1, 6]},
-            2: {tittle: 'Chat 2',  messageList: [2]},
-            3: {tittle: 'Chat 3',  messageList: [2, 7]},
-            4: {tittle: 'Chat 4',  messageList: [4]},
-            5: {tittle: 'Chat 5',  messageList: [5]},
-        },
         input: '',
     } 
 
@@ -60,14 +52,13 @@ class MessageField extends React.Component {
      * Событие нажатия кнопки отправки сообщения
      */
     handleSendMessage = () => {
-        const { chats, input } = this.state;
+        const { input } = this.state;
         const { chatId , messages} = this.props;
 
         if (input.length>0) {
             const messageId = Object.keys(messages).length + 1; 
             this.props.sendMessage(messageId, input, 'me', chatId); //вызов messageActions
             this.setState({
-                chats: { ...chats, [chatId]: { ...chats[chatId], messageList: [ ...chats[chatId]['messageList'], messageId] } }, 
                 input: '',
             });
         }
@@ -77,30 +68,22 @@ class MessageField extends React.Component {
      * Событие нажатия Enter при активном поле ввода
      */
     handleKeyUp = (event) => {
-        if (event.keyCode === 13) {
-            this.handleSendMessage();
-        }
+        if (event.keyCode === 13) this.handleSendMessage();
     };
 
     /**
      * Отправка ответа бота
      */
     sendAnswer = () => {
-        const { chats } = this.state;
         const { chatId, messages } = this.props;
+        const messageId = Object.keys(messages).length + 1;
 
-        const messageId = Object.keys(messages).length + 1; 
         this.props.sendMessage(messageId, "I'm bot", 'bot', chatId);
-        this.setState({
-           chats: {...chats, [chatId]: {...chats[chatId], messageList: [...chats[chatId]['messageList'], messageId]}}
-        });
     };
 
     componentDidUpdate(prevProps, prevState) {
-        /* console.log('componentDidUpdate');
-        console.log('prevState:', prevState, 'prevProps:', prevProps);
+    /* console.log('prevState:', prevState, 'prevProps:', prevProps);
         console.log('thisState:', this.state, 'thisProps:', this.props); */
-
         const {messages} = this.props;
 
         if ((Object.keys(prevProps.messages).length < Object.keys(messages).length)
@@ -110,8 +93,7 @@ class MessageField extends React.Component {
     }
 
     render() {
-        const {chats} = this.state;
-        const {chatId, messages} = this.props;
+        const {chatId, messages, chats} = this.props;
 
         const messageElements = chats[chatId].messageList.map((msgId, index) => (
                 <Chip 
@@ -140,8 +122,9 @@ class MessageField extends React.Component {
     }
 }
 
-const mapStateToProps = ({ messageReducer }) => ({
+const mapStateToProps = ({ messageReducer, chatReducer }) => ({
    messages: messageReducer.messages,
+   chats: chatReducer.chats,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage }, dispatch); //все action прокидывать в эту функцию
