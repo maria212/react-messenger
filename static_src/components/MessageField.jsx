@@ -71,27 +71,6 @@ class MessageField extends React.Component {
         if (event.keyCode === 13) this.handleSendMessage();
     };
 
-    /**
-     * Отправка ответа бота
-     */
-    sendAnswer = () => {
-        const { chatId, messages } = this.props;
-        const messageId = Object.keys(messages).length + 1;
-
-        this.props.sendMessage(messageId, "I'm bot", 'bot', chatId);
-    };
-
-    componentDidUpdate(prevProps, prevState) {
-    /* console.log('prevState:', prevState, 'prevProps:', prevProps);
-        console.log('thisState:', this.state, 'thisProps:', this.props); */
-        const {messages} = this.props;
-
-        if ((Object.keys(prevProps.messages).length < Object.keys(messages).length)
-                &&  Object.values(messages)[Object.keys(messages).length - 1].sender === "me") {
-            setTimeout(this.sendAnswer, 500);
-        }
-    }
-
     render() {
         const {chatId, messages, chats} = this.props;
 

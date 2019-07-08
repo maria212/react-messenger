@@ -20,7 +20,13 @@ export default function chatReducer(store = initialStore, action) {
         case SEND_MESSAGE: { 
             //return update работает как setState. Нужно дать старый стор и правила обновления, дальше она создаст новый стор и вернет его
             return update(store, {  
-                chats: {$set: {...store.chats, [action.chatId]: {...store.chats[action.chatId], messageList: [...store.chats[action.chatId]['messageList'], action.messageId]}}},
+                //chats: {$set: {...store.chats, [action.chatId]: {...store.chats[action.chatId], messageList: [...store.chats[action.chatId]['messageList'], action.messageId]}}},
+                // merge - это слияние, т е сохранение старого и добавление нового/обновление(если найдено по ключу). Замена spread operator
+                //внутрянка значения по ключу затирается, нужно полностью все прописать
+                chats: {$merge: { [action.chatId]: {
+                    tittle: store.chats[action.chatId].tittle,
+                    messageList: [...store.chats[action.chatId].messageList, action.messageId],
+                } } },
             });
         }
         default:
