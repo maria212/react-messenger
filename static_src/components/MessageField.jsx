@@ -31,15 +31,15 @@ class MessageField extends React.Component {
         sendMessage: PropTypes.func.isRequired,
         messages: PropTypes.object.isRequired,
         chats: PropTypes.object.isRequired,
-    }
+    };
     
     static defaultProps = {
         chatId: 1,
     };
 
-       state = {
+    state = {
         input: '',
-    } 
+    }; 
 
     /**
      * Событие набора 1 буквы в поле ввода
