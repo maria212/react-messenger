@@ -2,7 +2,6 @@
   "name": "react-messenger",
   "version": "1.0.0",
   "description": "Training project for GeekBrains",
-
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -50,6 +49,7 @@
     ]
   },
   "dependencies": {
+    "history": "^4.7.2",
     "material-ui": "^0.20.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -57,6 +57,8 @@
     "react-dom": "^16.8.6",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.3.1",
-    "redux": "^3.7.2"
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^3.7.2",
+    "redux-persist": "^5.10.0"
   }
 }
