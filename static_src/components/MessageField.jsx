@@ -22,6 +22,9 @@ const styles = {
     chipSenderOther: {
         margin: 4,
         alignSelf: 'flex-start',
+      },
+      TextField: {
+          width: '360px',
       }};
 
 class MessageField extends React.Component {
@@ -93,6 +96,7 @@ class MessageField extends React.Component {
                 name = "input"    
                 value = {this.state.input} 
                 onKeyUp={this.handleKeyUp}       
+                style={styles.TextField}
                 />
             <FloatingActionButton onClick = { this.handleSendMessage } mini = { true } backgroundColor = "#ff4081">
             <IconSend color = "white"/>

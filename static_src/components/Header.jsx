@@ -10,6 +10,7 @@ const styles = {
         height: "40px",
         backgroundColor: "#ffccdd",
         display: 'flex',
+        width: '600px',
         justifyContent: 'space-between',
     },
     headerText: {
